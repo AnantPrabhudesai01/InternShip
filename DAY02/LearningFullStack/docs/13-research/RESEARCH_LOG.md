@@ -72,3 +72,13 @@ Template per entry: Date / Question / Why / Sources / Version / Findings / Decis
 - Findings: v4 CSS-first `@import "tailwindcss"`, 5x builds, auto content detection; v3.4 only if old browsers needed — not our case.
 - Decision: start new with v4 + React 19; run `@tailwindcss/upgrade` codemod only if migrating.
 - Impact: DESIGN_SYSTEM + ADR-001; interview: CSS-first config tradeoff.
+
+## R-001-07 | 2026-09-30 | Query + RHF + Zod with React 19?
+
+- Question: server-state + forms + validation versions compatible with React 19.2.8?
+- Why: Kanban optimistic updates (Query), auth/forms (RHF+Zod), shadcn Form needs resolver chain.
+- Sources: `https://tanstack.com/query/latest` (v5 Latest, requires React 18+), `npm @tanstack/react-query` (5.102.8, 4 days ago), `npm react-hook-form` (7.87.0), `react-hook-form/resolvers` PR #777/#803 (Zod 4 support, v5.2.2), shadcn guide Jun 2026 (RHF v7 + resolvers v5 + zod v4 verified).
+- Version: `DECISION` `@tanstack/react-query@5.102.8`, `react-hook-form@7.87.0`, `@hookform/resolvers@^5.2.2`, `zod@^4`.
+- Findings: Query v5 `useSyncExternalStore` needs 18+ → OK 19; RHF v7 no deps, Zod 4 stable with subpath `zod/v3` compat; shadcn `add form` auto-installs trio.
+- Decision: server state via Query v5 (optimistic Kanban), forms via RHF+Zod resolver, TS strict mode.
+- Impact: FRONTEND_ARCHITECTURE + ADR-001/002; interview: why Query over RTK for server state.
