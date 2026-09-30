@@ -62,3 +62,13 @@ Template per entry: Date / Question / Why / Sources / Version / Findings / Decis
 - Findings: v7 non-breaking from v6, React 19 supported; v8 modern baseline too strict for portfolio now. CVE-2025-31137 patched in 7.4.1+ (Express adapter spoof) — use 7.18.3.
 - Decision: stay v7 library, defer framework features; verify data-router loaders at VS-01.
 - Impact: FRONTEND_ARCHITECTURE + ADR-001; interview: why library over framework.
+
+## R-001-06 | 2026-09-30 | Tailwind + shadcn with React 19?
+
+- Question: Tailwind v3 vs v4 for new project + shadcn compat?
+- Why: design tokens, browser support, build speed affect all UI slices.
+- Sources: `https://tailwindcss.com/blog/tailwindcss-v4-3` (v4.3 May 2026, v4.0 Jan 2025 stable), `https://ui.shadcn.com/docs/tailwind-v4` (full v4 + React 19 support, @theme, new-york style), upgrade guide (Safari 16.4+/Chrome 111+/FF 128+ required).
+- Version: `DECISION` `tailwindcss@^4.3` + `@tailwindcss/vite`, shadcn new-york, OKLCH colors, `size-*` utilities.
+- Findings: v4 CSS-first `@import "tailwindcss"`, 5x builds, auto content detection; v3.4 only if old browsers needed — not our case.
+- Decision: start new with v4 + React 19; run `@tailwindcss/upgrade` codemod only if migrating.
+- Impact: DESIGN_SYSTEM + ADR-001; interview: CSS-first config tradeoff.
