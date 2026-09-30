@@ -82,3 +82,13 @@ Template per entry: Date / Question / Why / Sources / Version / Findings / Decis
 - Findings: Query v5 `useSyncExternalStore` needs 18+ → OK 19; RHF v7 no deps, Zod 4 stable with subpath `zod/v3` compat; shadcn `add form` auto-installs trio.
 - Decision: server state via Query v5 (optimistic Kanban), forms via RHF+Zod resolver, TS strict mode.
 - Impact: FRONTEND_ARCHITECTURE + ADR-001/002; interview: why Query over RTK for server state.
+
+## R-001-08 | 2026-09-30 | Vite + Vitest + Storybook + Playwright with React 19?
+
+- Question: build + test + visual + E2E versions for Vite + React 19.2.8 on Node 24?
+- Why: single toolchain must agree; mismatched Vite/plugin breaks HMR/build.
+- Sources: `npm vite` (8.1.0 Jun 2026), `npm vitest` (4.1.9 Jun 2026), `npm @vitejs/plugin-react` (6.0.3), `npm @storybook/react-vite` (10.5.5/10.5.10), Playwright 1.59–1.62, candidstartup Aug 2026 matrix (React 19.2.8 + Storybook 10.5.6 + Vitest 4.1.10 green).
+- Version: `DECISION` `vite@8.1.0`, `@vitejs/plugin-react@6.0.3`, `vitest@4.1.9`, `@storybook/react-vite@10.5.x`, `@playwright/test@1.62.x`, `@types/react@19.2.x`.
+- Findings: Storybook 10 requires React ≥16.8 + Vite ≥5 → OK; Vitest 4 Vite-powered, browser mode via Playwright provider; Vite 8 needs Node 20+ → OK 24.
+- Decision: Vite-based unified toolchain; RTL for components, Playwright for E2E register→AI flow.
+- Impact: TESTING_STRATEGY + ADR-001; interview: why Vite-native Vitest over Jest.
