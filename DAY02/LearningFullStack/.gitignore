@@ -1,0 +1,21 @@
+# Scoped to AI DevFlow (nested repo DAY02/LearningFullStack)
+# Keeps DAY01 and root clean. Do NOT add DAY01 rules here.
+node_modules/
+.env
+.env.local
+dist/
+build/
+coverage/
+.vite/
+*.log
+.DS_Store
+Thumbs.db
+
+# --- Local-only AI memory (never push to GitHub) ---
+# WHY: session logs + working plans prevent hallucination locally,
+# but pollute portfolio. Model reads them from disk; GitHub doesn't need them.
+# See docs/12-devops/GIT_WORKFLOW.md §7 and DECISION D004.
+docs/00-ai-memory/SESSION_HANDOFF.md
+docs/00-ai-memory/SESSION_LOG.md
+docs/00-ai-memory/INCONSISTENCIES.md
+docs/00-ai-memory/ACTIVE_PLAN.md
