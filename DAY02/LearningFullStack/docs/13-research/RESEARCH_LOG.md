@@ -52,3 +52,13 @@ Template per entry: Date / Question / Why / Sources / Version / Findings / Decis
 - Findings: v9 needs Node 16+ → OK; driver supports replica-set transactions required for sprints/bulk writes.
 - Decision: pin ^9, verify Atlas vector-search compat separately in ADR-007.
 - Impact: DATABASE_DESIGN + ADR-004; interview: ODM vs driver tradeoff.
+
+## R-001-05 | 2026-09-30 | React Router version + React 19 compat?
+
+- Question: which Router line works with React 19.2.8 in library mode (no framework lock-in)?
+- Why: routing + URL state for filters/sort/page/search; v6→v7→v8 baselines differ.
+- Sources: `https://reactrouter.com/` (v7 bridges 18→19; v8 needs Node 22+/React 19+/ESM-only), `https://www.npmjs.com/package/react-router-dom` (7.18.3 latest Aug 2026), changelog 7.14/7.7 (React 19 NODE_ENV fix #12578).
+- Version: `DECISION` `react-router@7.18.3` (`react-router-dom` re-export), library mode `createBrowserRouter + RouterProvider`.
+- Findings: v7 non-breaking from v6, React 19 supported; v8 modern baseline too strict for portfolio now. CVE-2025-31137 patched in 7.4.1+ (Express adapter spoof) — use 7.18.3.
+- Decision: stay v7 library, defer framework features; verify data-router loaders at VS-01.
+- Impact: FRONTEND_ARCHITECTURE + ADR-001; interview: why library over framework.
