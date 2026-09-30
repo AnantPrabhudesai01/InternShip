@@ -24,6 +24,13 @@
 - Consequences: fresh clone lacks private logs → must mark UNKNOWN, reconstruct from public snapshots + code. Never `git add -f` private files.
 - Status: Accepted.
 
+## DECISION D005 — Local-only ERROR_LOG for Git + dev errors (2026-09-30, S003)
+
+- Context: owner requires error history for future + interviews, but off GitHub.
+- Decision: log every error in `docs/00-ai-memory/ERROR_LOG.md` (gitignored); template Date/Command/Error/Why/Fix/Lesson. Logged G-001–G-010 so far.
+- Reason: preserves evidence, prevents repeat, interview stories with real fixes.
+- Status: Accepted.
+
 ## ASSUMPTIONS (require R-001 verification)
 
 - A001: React + TS + Router + Tailwind + shadcn + TanStack Query + RHF + Zod preferred (§44 default, not immutable).
