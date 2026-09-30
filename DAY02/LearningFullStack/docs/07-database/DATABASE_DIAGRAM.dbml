@@ -1,0 +1,60 @@
+Project ai_devflow {
+  database_type: 'MongoDB'
+  Note: 'Document model. References via ObjectId. Vectors TBD (ADR-007).'
+}
+
+Table User {
+  _id ObjectId [pk]
+  email string [unique, not null]
+  passwordHash string [not null]
+  name string
+  avatarUrl string
+  createdAt datetime
+}
+
+Table Workspace {
+  _id ObjectId [pk]
+  name string [not null]
+  ownerId ObjectId [ref: > User._id]
+}
+
+Table WorkspaceMember {
+  _id ObjectId [pk]
+  workspaceId ObjectId [ref: > Workspace._id]
+  userId ObjectId [ref: > User._id]
+  role string [note: 'owner|admin|member|viewer TBD']
+}
+
+Table Project {
+  _id ObjectId [pk]
+  workspaceId ObjectId [ref: > Workspace._id]
+  name string [not null]
+}
+
+Table Task {
+  _id ObjectId [pk]
+  projectId ObjectId [ref: > Project._id]
+  title string [not null]
+  status string [note: 'todo|in_progress|review|done TBD']
+  assigneeId ObjectId [ref: > User._id]
+}
+
+Table Sprint {
+  _id ObjectId [pk]
+  projectId ObjectId [ref: > Project._id]
+  name string
+  state string
+}
+
+Table Comment {
+  _id ObjectId [pk]
+  taskId ObjectId [ref: > Task._id]
+  authorId ObjectId [ref: > User._id]
+  body string
+}
+
+Ref: Workspace.ownerId > User._id
+Ref: WorkspaceMember.workspaceId > Workspace._id
+Ref: Project.workspaceId > Workspace._id
+Ref: Task.projectId > Project._id
+Ref: Sprint.projectId > Project._id
