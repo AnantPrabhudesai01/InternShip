@@ -1,7 +1,7 @@
-import {router} from 'express';
-import {registerSchema,LoginSchema} from '../validations/auth.js';
+import {Router} from 'express';
+import {registerSchema,loginSchema} from '../validations/auth.js';
 
-export const authRouter = router();
+export const authRouter = Router();
 
 authRouter.post('/register', async (req,res) =>{
     const parsed = registerSchema.safeParse(req.body);
