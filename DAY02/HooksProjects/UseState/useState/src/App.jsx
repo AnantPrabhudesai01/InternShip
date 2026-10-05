@@ -2,7 +2,6 @@ import Counter from './components/Counter.jsx'
 import Toggle from './components/Toggle.jsx'
 import NameForm from './components/NameForm.jsx'
 import TodoList from './components/TodoList.jsx'
-import './App.css'
 
 function App() {
   return (
