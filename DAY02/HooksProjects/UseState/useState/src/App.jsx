@@ -1,19 +1,37 @@
-import Counter from './components/Counter.jsx'
-import Toggle from './components/Toggle.jsx'
-import NameForm from './components/NameForm.jsx'
-import TodoList from './components/TodoList.jsx'
+import { useState } from 'react';
+import { seedExpenses } from './data/seedExpenses.js';
 
-function App() {
+export default function App() {
+  const [expenses, setExpenses] = useState(seedExpenses);
+  const [search, setSearch] = useState('');
+
+  const filtered = expenses.filter((e) =>
+    e.title.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const total = filtered.reduce((sum, e) => sum + e.amount, 0);
+
   return (
-    <main style={{ maxWidth: 640, margin: '0 auto', padding: 24, display: 'grid', gap: 16 }}>
-      <h1>DAY03 — useState Practice</h1>
-      <p>4 small examples: number, boolean, string, array.</p>
-      <Counter />
-      <Toggle />
-      <NameForm />
-      <TodoList />
+    <main style={{ maxWidth: 640, margin: '0 auto', padding: 24 }}>
+      <h1>SpendLog</h1>
+      <input
+        type="text"
+        placeholder="Search by title"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <p>Total: Rs {total} | Count: {filtered.length}</p>
+      {filtered.length === 0 ? (
+        <p>No matches. Clear search.</p>
+      ) : (
+        <ul>
+          {filtered.map((e) => (
+            <li key={e.id}>
+              {e.title} - Rs {e.amount} - {e.category} - {e.date}
+            </li>
+          ))}
+        </ul>
+      )}
     </main>
-  )
+  );
 }
-
-export default App
