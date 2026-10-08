@@ -2,16 +2,20 @@ import {useState} from 'react';
 
 export default function App(){
   const [samples,setSamples] = useState([]);
-  const [form,setForm] = useState({id: '',customer: '',test:''})
+  const [form,setForm] = useState({id: '',customer: '',test:'',result: '',spec: ''});
   const [error,setError] = useState('');
+
+
+const isOOS = (r,s) => r!== '' && s !== '' && Number(r) < Number(s);
 
 
   const add = (e) =>{
     e.preventDefault();
     if(!form.id.trim()) return setError('ID IS REQUIRED')
     if(samples.find((s)=>s.id === form.id.trim())) return setError('ID ALREADY EXISTS')
+    setError('')
     setSamples([...samples,{...form,id: form.id.trim(),status: 'REGISTERED'}])
-    setForm({id: '',customer: '',test:''})
+    setForm({id: '',customer: '',test:'',result: '',spec: ''})
 
   }
 
@@ -21,14 +25,16 @@ return (
     {error && <div style={{ background: '#fee', border: '1px solid red', padding: 8 }}>{error} <button onClick={() => setError('')}>X</button></div>}
     <form onSubmit={add}>
       <input placeholder="SMP-000471" value={form.id} onChange={e => setForm({ ...form, id: e.target.value })} />
-      <input placeholder-="Customer" value={form.customer} onChange = {e => setForm({...form,customer: e.target.value})}/>
+      <input placeholder="Customer" value={form.customer} onChange = {e => setForm({...form,customer: e.target.value})}/>
       <input placeholder="Test" value={form.test} onChange = {e => setForm({...form,test: e.target.value})}/>
-      <button>Add Sample</button>
+      <input placeholder="Result" value={form.result} onChange = {e => setForm({...form,result: e.target.value})}/>
+      <input placeholder="Spec" value={form.spec} onChange = {e => setForm({...form,spec: e.target.value})}/>
+          <button>Add Sample</button>
     </form>
     <ul>
-      {samples.map(s => (
-        <li key={s.id}>{s.id} - {s.status}</li>
-      ))}
+      {samples.map(s => 
+<li key={s.id}>{s.id} - R:{s.result}/S:{s.spec} - {s.status} {isOOS(s.result,s.spec) ? '🔴 OOS HOLD' : '🟢 PASS'} <button disabled={isOOS(s.result,s.spec)}>Approve</button></li>
+      )}
     </ul>
   </div>
 )}
