@@ -1,4 +1,5 @@
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
+
 
 export default function App(){
   const [samples,setSamples] = useState([]);
@@ -8,14 +9,18 @@ export default function App(){
 
 const isOOS = (r,s) => r!== '' && s !== '' && Number(r) < Number(s);
 
+useEffect(()=>{fetch('http://localhost:5000/samples').then((r=>r.json())).then(setSamples)},[])
 
-  const add = (e) =>{
+
+  const add = async (e) =>{
     e.preventDefault();
     if(!form.id.trim()) return setError('ID IS REQUIRED')
     if(samples.find((s)=>s.id === form.id.trim())) return setError('ID ALREADY EXISTS')
     setError('')
-    setSamples([...samples,{...form,id: form.id.trim(),status: 'REGISTERED'}])
-    setForm({id: '',customer: '',test:'',result: '',spec: ''})
+    const rec = {...form,id:form.id.trim(),status:'REGISTERED'}
+    await fetch('http://localhost:5000/samples',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(rec)})
+    setSamples([...samples,rec])
+        setForm({id: '',customer: '',test:'',result: '',spec: ''})
 
   }
 
