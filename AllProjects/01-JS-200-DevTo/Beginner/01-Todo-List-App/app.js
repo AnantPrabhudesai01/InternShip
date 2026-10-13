@@ -5,6 +5,7 @@ let currentFilter = "all";
 const inputEl = document.getElementById("todoInput");
 const addBtn = document.getElementById("addBtn");
 const listEl = document.getElementById("list");
+const countEl = document.getElementById("count");
 
 console.log("block2 state ", typeof todos, Array.isArray(todos));
 
@@ -49,9 +50,15 @@ function deleteTodo(id) {
   render()
 }
 
+function getVisibleTodos(){
+    if(currentFilter === "active") return todos.filter(function (t){return !t.done; });
+    if(currentFilter === "done") return todos.filter(function (t){return t.done;};
+    return todos;
+}
+
 function render() {
   listEl.innerHTML = "";
-  todos.forEach(function (todo) {
+  getVisibleTodos.forEach(function (todo) {
     const li = document.createElement("li");
     if (todo.done) li.className = "done";
     const checkbox = document.createElement("input");
@@ -72,6 +79,8 @@ function render() {
     li.appendChild(delBtn);
     listEl.appendChild(li);
   });
+  const left = todos.filter(function(t){return !t.done; }).length;
+  countEl.textContent =left +"left /" + todos.length + "total";
 }
 
 addBtn.addEventListener("click" ,function(){
@@ -88,6 +97,12 @@ inputEl.addEventListener("keydown",function(e){
         inputEl.value = ""
         render();
     }
+    document.querySelectorAll("[data-filter]").forEach(function(btn){
+  btn.addEventListener("click", function(){
+    currentFilter = btn.getAttribute("data-filter");
+    render();
+  });
+})
 });
 
 render();
