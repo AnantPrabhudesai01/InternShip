@@ -52,13 +52,13 @@ function deleteTodo(id) {
 
 function getVisibleTodos(){
     if(currentFilter === "active") return todos.filter(function (t){return !t.done; });
-    if(currentFilter === "done") return todos.filter(function (t){return t.done;};
+    if(currentFilter === "done") return todos.filter(function (t){return t.done;});
     return todos;
 }
 
 function render() {
   listEl.innerHTML = "";
-  getVisibleTodos.forEach(function (todo) {
+  getVisibleTodos().forEach(function (todo) {
     const li = document.createElement("li");
     if (todo.done) li.className = "done";
     const checkbox = document.createElement("input");
@@ -97,12 +97,13 @@ inputEl.addEventListener("keydown",function(e){
         inputEl.value = ""
         render();
     }
-    document.querySelectorAll("[data-filter]").forEach(function(btn){
-  btn.addEventListener("click", function(){
-    currentFilter = btn.getAttribute("data-filter");
-    render();
-  });
-})
-});
+    });
+          document.querySelectorAll("[data-filter]").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          currentFilter = btn.getAttribute("data-filter");
+          render();
+        });
+      });
+    
 
 render();
